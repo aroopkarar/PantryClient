@@ -1,3 +1,8 @@
 export const environment = {
-  production: true
+  deployable: false,
+  production:true,
+  envName: 'dev',
+  urlPaths: {
+    a:""
+  },
 };
