@@ -1,0 +1,9 @@
+
+              <div class="wrapper">
+                      <form class="form-signin" #form="ngForm" (ngSubmit)="login(form)">
+                        <h2 class="form-signin-heading">User Login</h2>
+                        <label>Username : </label><input class="form-control" type="text" ngModel name="userid" >
+                        <label>Password : </label><input class="form-control" type="password" ngModel name="password">
+                         <button type="submit"  class="btn btn-lg btn-primary btn-block" >Login</button>
+                      </form>
+              </div>

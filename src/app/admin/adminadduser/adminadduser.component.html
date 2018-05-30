@@ -1,0 +1,36 @@
+<!--Template-driven forms -->
+
+<div class="wrapper">
+  <form class="form-signin" ngForm #form="ngForm" (ngSubmit)="createUser(form)">
+    <h2 class="form-signin-heading">Create User</h2>
+    <label>Username : </label><input class="form-control" type="text" ngModel name="username" >
+    <label>Password : </label><input class="form-control" type="password" ngModel name="password">
+    <label>Firstname : </label><input class="form-control" type="text" ngModel name="firstname">
+    <label>Lastname : </label><input class="form-control" type="text" ngModel name="lastname">
+    <label>Mobile : </label><input class="form-control" type="text" ngModel name="mobile">
+    <label>Email : </label><input class="form-control" type="text" ngModel name="email">
+    <label>Image Url : </label><input class="form-control" type="text" ngModel name="imageUrl">
+    <label>IsAdmin : </label><input class="form-control" type="radio" ngModel name="isAdmin" value="true" checked>Yes <input class="form-control" type="radio" ngModel name="isAdmin" value="false"> No<br>
+   
+    <label>Cart Id : </label><input class="form-control" type="text" ngModel name="cart">
+    <input  class="btn btn-lg btn-primary btn-block" type="submit" value="Create User">
+  </form>
+</div>
+
+
+<!--Reactive forms -->
+<!-- <div class="wrapper">
+  <form class="form-signin" [formGroup]="form" (ngSubmit)="createUser()">
+    <h2 class="form-signin-heading">Create User</h2>
+    <label>Username : </label><input class="form-control" type="text"  formControlName="username" >
+    <label>Password : </label><input class="form-control" type="password"  formControlName="password">
+    <label>Firstname : </label><input class="form-control" type="text"  formControlName="firstname">
+    <label>Lastname : </label><input class="form-control" type="text"  formControlName="lastname">
+    <label>Mobile : </label><input class="form-control" type="text"  formControlName="mobile">
+    <label>Email : </label><input class="form-control" type="text"  formControlName="email">
+    <label>Image Url : </label><input class="form-control" type="text"  formControlName="imageUrl">
+    <label>IsAdmin : </label><input class="form-control" type="radio" ngModel name="isAdmin" value="true" checked>Yes <input class="form-control" type="radio" ngModel name="isAdmin" value="false"> No<br>
+    <label>Cart Id : </label><input class="form-control" type="text"  formControlName="cart">
+    <input  class="btn btn-lg btn-primary btn-block" type="submit" value="Create User">
+  </form>
+</div> -->

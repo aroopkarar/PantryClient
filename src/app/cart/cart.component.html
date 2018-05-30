@@ -1,0 +1,67 @@
+<div class="container">
+    <div *ngIf="this.cartProducts.length>0" class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Total</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let p of cartProducts;let i = index">
+                        <td class="col-sm-8 col-md-6">
+                        <div class="media">
+                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="{{p.imageUrl}}" style="width: 72px; height: 72px;"> </a>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="#">{{p.name}}</a></h4>
+                                <h5 class="media-heading"> by <a href="#">Brand name</a></h5>
+                                <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
+                            </div>
+                        </div></td>
+                        <td class="col-sm-1 col-md-1" style="text-align: center">
+                        <input type="text" class="form-control" id="exampleInputEmail1" value="1">
+                        <button class="btn btn-sm" (click)="increaseProductQuantity(i)">+</button>
+                        <button class="btn btn-sm" (click)="decreaseProductQuantity(i)">-</button>
+                        </td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>{{p.price}}</strong></td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>{{p.price}}</strong></td>
+                        <td class="col-sm-1 col-md-1">
+                        <button type="button" class="btn btn-danger" (click)="removeFromCart(i)">
+                            <span class="glyphicon glyphicon-remove"></span> Remove
+                        </button></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h3>Total</h3></td>
+                        <td class="text-right"><h3><strong>{{this.cartTotalSum}}</strong></h3></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>
+                        <button type="button" class="btn btn-default" routerLink="/">
+                            <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                        </button></td>
+                        <td>
+                        <button type="button" class="btn btn-success" routerLink="/checkout" (click)="getCartproducts()">
+                            Checkout <span class="glyphicon glyphicon-play"></span>
+                        </button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row" *ngIf="this.cartProducts.length==0">
+        <div class="jumbotron">
+            <h1>Empty Cart!!</h1>
+                <br><span class="fas fa-cart-plus fa-w-18 fa-7x"></span>
+          </div>
+    </div>
+</div>

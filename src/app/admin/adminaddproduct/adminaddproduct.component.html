@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-lg-offset-1 col-lg-5" style="border: 1px solid black;">
+      <form #f="ngForm" (ngSubmit)="save(f.value)" style="padding: 2em;">
+          <div class="form-group">
+            <label for="productName">Product Name</label>
+            <input #title="ngModel" [(ngModel)]="product.productName" name="productName"  type="text" class="form-control" required>
+            <div class="alert alert-danger" *ngIf="title.touched && title.invalid">
+              Product Name is Required
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="productDescription">Product Description</label>
+            <input #productDescription="ngModel" [(ngModel)]="product.productDescription" name="productDescription" type="text" class="form-control" required>
+            <div class="alert alert-danger" *ngIf="productDescription.touched && productDescription.invalid">
+                Product Description is Required
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="price">Price</label>
+            <div class="input-group">
+              <span class="input-group-addon">INR</span>
+              <input #price="ngModel" [(ngModel)]="product.price" name="price" id="price" type="number" min="1" class="form-control" required>
+            </div>
+            <div class="alert alert-danger" *ngIf="price.touched && price.invalid">
+              Price is Required
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="subcategoryId">Sub Category</label>
+            <select #subcategoryId="ngModel" [(ngModel)]="product.subcategoryId" name="subcategoryId" class="form-control" required>
+              <option value=""></option>
+              <option *ngFor="let c of subcategories$ | async " [value]="c.subcategoryId">
+                {{c.subcategoryName}}
+              </option>
+            </select>
+            <div class="alert alert-danger" *ngIf="subcategoryId.touched && subcategoryId.invalid">
+              Sub Category is Required
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="imageUrl">Image Url</label>
+            <input #imageUrl="ngModel" [(ngModel)]="product.imageUrl" name="imageUrl" id="imageUrl" type="text" class="form-control" required>
+            <div class="alert alert-danger" *ngIf="imageUrl.touched && imageUrl.invalid">
+              Image Url is Required
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+              <div class="form-group">
+                  <label for="hasOffer">Has Offer</label>
+                  <input  #hasOffer="ngModel" type="checkbox"  [(ngModel)]="product.hasOffer" name="hasOffer" id="hasOffer">
+              </div>
+          </div>
+          <div class="col-lg-4">
+              <div class="form-group">
+                  <label for="isActive">Is Active</label>
+                  <input  #isActive="ngModel" type="checkbox"  [(ngModel)]="product.isActive" name="isActive" id="isActive">
+              </div>
+          </div>
+        </div>
+        <div class="form-group" *ngIf="hasOffer.value">
+            <label for="offerId">Offer Percent</label>
+            <input #offerId="ngModel" [(ngModel)]="product.offerId" name="offerId" id="offerId" type="text" class="form-control">
+        </div>
+
+        <button class="btn btn-primary">Save</button>
+        </form>
+  </div>
+  <div class="col-lg-5">
+      <div class="card">
+          <img class="card-img-top img-responsive" [src]="product.imageUrl" *ngIf="product.imageUrl">
+          <div class="card-body">
+            <h5 class="card-title">{{product.productName}}</h5>
+            <p class="card-text">INR {{product.price}}</p>
+          </div>
+        </div>
+  </div>
+</div>

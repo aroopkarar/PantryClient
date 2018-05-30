@@ -1,0 +1,13 @@
+<div class="index-content">
+                <div class="col-lg-4 col-sm-6 col-xs-12" *ngFor="let p of products" style="margin-bottom:1em;">
+                    <div class="card">
+                        <a (click)="goToDescriptionPage(p.id)"><img src="{{p.imageUrl}}"></a>
+                        <table class="text-center">
+                            <tr>
+                                <td>{{p.name}}</td>
+                                <td>{{p.price}}</td>
+                            </tr>
+                        </table>
+                         <button class="btn btn-success btn-block" (click)="addToCart(p)">Add to Cart</button>
+                    </div>
+                </div>
