@@ -23,12 +23,12 @@
                             </div>
                         </div></td>
                         <td class="col-sm-1 col-md-1" style="text-align: center">
-                        <input type="text" class="form-control" id="exampleInputEmail1" value="1">
+                        <input type="text" class="form-control" id="exampleInputEmail1" value="{{p.quantity}}">
                         <button class="btn btn-sm" (click)="increaseProductQuantity(i)">+</button>
                         <button class="btn btn-sm" (click)="decreaseProductQuantity(i)">-</button>
                         </td>
                         <td class="col-sm-1 col-md-1 text-center"><strong>{{p.price}}</strong></td>
-                        <td class="col-sm-1 col-md-1 text-center"><strong>{{p.price}}</strong></td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>{{p.price*p.quantity}}</strong></td>
                         <td class="col-sm-1 col-md-1">
                         <button type="button" class="btn btn-danger" (click)="removeFromCart(i)">
                             <span class="glyphicon glyphicon-remove"></span> Remove

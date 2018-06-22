@@ -26,7 +26,15 @@ export class CartComponent implements OnInit {
     .subscribe((res)=>{
       this.cartProducts = res;
       this.doCartSum();
+      this.initializeCart();
     });
+  }
+
+  initializeCart()
+  {
+      this.cartProducts.forEach(p=>{
+        p.quantity=1;
+      })
   }
 
   getCartProducts()
@@ -40,7 +48,7 @@ export class CartComponent implements OnInit {
       this.cartTotalSum=0;
       for(let p of this.cartProducts)
         {
-            this.cartTotalSum= this.cartTotalSum+p.price;
+            this.cartTotalSum= this.cartTotalSum+(p.price*p.quantity);
         };
   }
 
@@ -70,13 +78,15 @@ export class CartComponent implements OnInit {
 
   increaseProductQuantity(productNumber)
   {
-    this.dataManagerService.order.orderlines[productNumber].quantity++;
+    this.cartProducts[productNumber].quantity++;
+    this.doCartSum();
   }
 
   decreaseProductQuantity(productNumber)
   {
-    if(this.dataManagerService.order.orderlines[productNumber].quantity>0)
-    this.dataManagerService.order.orderlines[productNumber].quantity--;
+    if(this.cartProducts[productNumber].quantity>1)
+    this.cartProducts[productNumber].quantity--;
+    this.doCartSum();
   }
 
 }
