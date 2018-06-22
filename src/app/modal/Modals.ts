@@ -67,7 +67,7 @@ export class OrderLine
      totalPrice: number;
 }
 
-export class Orders
+export class Order
 {
     id : number;
     status : OrderStatus;
@@ -149,7 +149,7 @@ export class User
     dateModified:Date;
     cart : Cart;
     addresses: Array<Address>;
-    orders: Array<Orders>;
+    orders: Array<Order>;
 }
 
 export class Zip{

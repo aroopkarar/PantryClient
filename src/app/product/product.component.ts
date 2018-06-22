@@ -1,6 +1,6 @@
 import { DataManagerService } from './../services/data-manager.service';
 import { Component, OnInit, Input } from '@angular/core';
-import { Product, Orders } from './../modal/Modals';
+import { Product, Order } from './../modal/Modals';
 import { Router } from '@angular/router';
 
 @Component({

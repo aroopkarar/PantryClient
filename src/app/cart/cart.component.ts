@@ -25,8 +25,8 @@ export class CartComponent implements OnInit {
     this.dataManagerService.getProductsInCart(cartId)
     .subscribe((res)=>{
       this.cartProducts = res;
-      this.doCartSum();
       this.initializeCart();
+      this.doCartSum();
     });
   }
 

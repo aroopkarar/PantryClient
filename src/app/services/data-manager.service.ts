@@ -1,5 +1,5 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Cart, Orders, OrderLine } from './../modal/Modals';
+import { Cart, Order, OrderLine } from './../modal/Modals';
 import { Injectable } from '@angular/core';
 import {RequestOptions, Http } from '@angular/http';
 import { environment } from '../../environments/environment';
@@ -18,7 +18,7 @@ export class DataManagerService {
   cartCount =new BehaviorSubject<number>(0);
 
   //order object
-  public order: Orders= new Orders();
+  public order: Order= new Order();
 
   //productNumber represent the cart productNo
   cartProductNumber: number=0;
@@ -166,7 +166,7 @@ export class DataManagerService {
   createOrder(cartId: number)
   {
     console.log('Order object: '+JSON.stringify(this.order));
-    this.http.post<Orders>(this.getRelativePath("/createOrder"),this.order).subscribe(
+    this.http.post<Order>(this.getRelativePath("/createOrder"),this.order).subscribe(
       res=>{
         this.order= res;
         console.log('Order created: '+this.order.id);
