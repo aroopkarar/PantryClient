@@ -26,7 +26,7 @@ export class CartComponent implements OnInit {
     .subscribe((res)=>{
       this.cartProducts = res;
       this.initializeCart();
-      this.doCartSum();
+      this.doCartTotal();
     });
   }
 
@@ -42,8 +42,8 @@ export class CartComponent implements OnInit {
     console.log('cartProducts= '+this.cartProducts);
   }
 
-  //Method to do Cart Total
-  doCartSum()
+  //Cart: Method to do Cart Total
+  doCartTotal()
   {
       this.cartTotalSum=0;
       for(let p of this.cartProducts)
@@ -52,7 +52,7 @@ export class CartComponent implements OnInit {
         };
   }
 
-  //Method to remove a specific product from User Cart
+  //Cart: Method to remove a specific product from Cart
   removeFromCart(productId: number)
   {
     let cartId =1;
@@ -62,31 +62,36 @@ export class CartComponent implements OnInit {
       this.cartProducts.splice(productId,1)[0];
       //this.removeProductFromOrder(productId);
       console.log('Got products after removing  in cart: '+JSON.stringify(this.cartProducts));
-      this.doCartSum();
+      this.doCartTotal();
     });
   }
 
+  //Order Lines: Method to add a product to
   addProductToOrder(productIndex)
   {
 
   }
 
+  //Order Lines: Method to remove a product from
   removeProductFromOrder(productNumber)
   {
 
   }
 
+
+  //Cart: Method to increase Product Quantity
   increaseProductQuantity(productNumber)
   {
     this.cartProducts[productNumber].quantity++;
-    this.doCartSum();
+    this.doCartTotal();
   }
 
+  //Cart: Method to decrease Product Quantity
   decreaseProductQuantity(productNumber)
   {
     if(this.cartProducts[productNumber].quantity>1)
     this.cartProducts[productNumber].quantity--;
-    this.doCartSum();
+    this.doCartTotal();
   }
 
 }

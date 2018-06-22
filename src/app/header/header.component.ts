@@ -12,7 +12,13 @@ export class HeaderComponent implements OnInit {
   constructor(private dataManagerService: DataManagerService,
   private router: Router) { }
 
+  cartCount=0;
+
   ngOnInit() {
+    this.dataManagerService.getProductsCountInCart(1);
+    this.dataManagerService.cartCount.subscribe((count)=>{
+        this.cartCount=count;
+    });
   }
 
   getCartId()
