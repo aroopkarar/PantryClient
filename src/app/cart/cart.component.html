@@ -1,5 +1,5 @@
 <div class="container">
-    <div *ngIf="this.cartProducts.length>0" class="row">
+    <div *ngIf="this.cart && this.cart.cartItems.length>0" class="row">
         <div class="col-sm-12 col-md-10 col-md-offset-1">
             <table class="table table-hover">
                 <thead>
@@ -12,25 +12,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let p of cartProducts;let i = index">
+                    <tr *ngFor="let p of this.cart.cartItems;let i = index">
                         <td class="col-sm-8 col-md-6">
                         <div class="media">
-                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="{{p.imageUrl}}" style="width: 72px; height: 72px;"> </a>
+                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="{{p.product.imageUrl}}" style="width: 72px; height: 72px;"> </a>
                             <div class="media-body">
-                                <h4 class="media-heading"><a href="#">{{p.name}}</a></h4>
+                                <h4 class="media-heading"><a href="#">{{p.product.name}}</a></h4>
                                 <h5 class="media-heading"> by <a href="#">Brand name</a></h5>
                                 <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
                             </div>
                         </div></td>
                         <td class="col-sm-1 col-md-1" style="text-align: center">
-                        <input type="text" class="form-control" id="exampleInputEmail1" value="{{p.quantity}}">
+                        <input type="text" class="form-control" id="exampleInputEmail1" [(ngModel)]="p.quantity" (input)="this.doCartTotal();this.updateCartItem(i)">
                         <button class="btn btn-sm" (click)="increaseProductQuantity(i)">+</button>
                         <button class="btn btn-sm" (click)="decreaseProductQuantity(i)">-</button>
                         </td>
-                        <td class="col-sm-1 col-md-1 text-center"><strong>{{p.price}}</strong></td>
-                        <td class="col-sm-1 col-md-1 text-center"><strong>{{p.price*p.quantity}}</strong></td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>{{p.product.price}}</strong></td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>{{p.product.price*p.quantity}}</strong></td>
                         <td class="col-sm-1 col-md-1">
-                        <button type="button" class="btn btn-danger" (click)="removeFromCart(i)">
+                        <button type="button" class="btn btn-danger" (click)="removeProductFromCart(p)">
                             <span class="glyphicon glyphicon-remove"></span> Remove
                         </button></td>
                     </tr>
@@ -58,7 +58,7 @@
             </table>
         </div>
     </div>
-    <div class="row" *ngIf="this.cartProducts.length==0">
+    <div class="row" *ngIf="this.cart && this.cart.cartItems.length==0">
         <div class="jumbotron">
             <h1>Empty Cart!!</h1>
                 <br><span class="fas fa-cart-plus fa-w-18 fa-7x"></span>

@@ -1,5 +1,5 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Cart, Order, OrderLine } from './../modal/Modals';
+import { Cart, Orders, OrderLine, CartItem } from './../modal/Modals';
 import { Injectable } from '@angular/core';
 import {RequestOptions, Http } from '@angular/http';
 import { environment } from '../../environments/environment';
@@ -16,16 +16,17 @@ export class DataManagerService {
 
   //count behaviour subject to keep track of the number of product in cart
   cartCount =new BehaviorSubject<number>(0);
+  //Stores User Cart
+  cart=new BehaviorSubject<Cart>(null);
+  //Stores User CartId
+  cartId=new BehaviorSubject<number>(1);
 
-  //order object
-  public order: Order= new Order();
+  //Order object
+  public order: Orders= new Orders();
 
-  //productNumber represent the cart productNo
-  cartProductNumber: number=0;
-
-  //Instantiating order lines for a order
+  //Instantiating Order lines for a Order
   constructor(private http: HttpClient) { 
-    this.order.orderlines = new Array<OrderLine>();
+    this.getCart(this.cartId.getValue());
   }
 
   products: Array<Product>;
@@ -87,7 +88,6 @@ export class DataManagerService {
   }
 
   headers;
-
   //Method to set JWT in the Authorization header
   setHeaders()
   {
@@ -112,43 +112,14 @@ export class DataManagerService {
   }
 
   //Method to add product to user cart
-  addProductToCart(product: Product, cartId: number) {
-   let queryParam = '?productId='+product.id+'&cartId='+cartId;
-   //console.log('Controller to hit: '+(this.getRelativePath('/addToCart'+queryParam)));
+  addProductToCart(productId: number, cartId: number) {
+   let queryParam = '?productId='+productId+'&cartId='+cartId;
    return this.http.get(this.getRelativePath('/addToCart'+queryParam));
   }
 
-  generateOrderLines()
-  {
-    this.cartProductNumber=0;
-    if(this.cartCount.getValue()>0)
-    {
-    let productLines: Array<Product>;
-    this.getProductsInCart(1).subscribe(res=>{
-      productLines=res;
-      productLines.forEach(product=>{
-        this.order.orderlines[this.cartProductNumber]=new OrderLine();
-        this.order.orderlines[this.cartProductNumber].product=product;
-        this.order.orderlines[this.cartProductNumber].quantity=1;
-        this.order.orderlines[this.cartProductNumber].totalPrice=product.price;
-        this.cartProductNumber++;
-      });
-      console.log('Generate Order lines for a cart');
-    });
-   }
-   else
-   console.log('Order lines not generated for a cart');
-  }
-
-  removeProductLine(product: Product)
-  {
-    console.log('Product removed from Order Line');
-  }
-
   //Method to remove product from user cart
-  removeProductFromCart(product: Product, cartId: number) {
-    let queryParam = '?productId='+product.id+'&cartId='+cartId;
-    this.removeProductLine(product);
+  removeProductFromCart(productId:number, cartId: number) {
+    let queryParam = '?productId='+productId+'&cartId='+cartId;
     return this.http.get(this.getRelativePath('/removeFromCart'+queryParam));
    }
 
@@ -162,24 +133,32 @@ export class DataManagerService {
     });
    }
 
-  //Method to create a new order
+  //Method to create a new Order
   createOrder(cartId: number)
   {
-    console.log('Order object: '+JSON.stringify(this.order));
-    this.http.post<Order>(this.getRelativePath("/createOrder"),this.order).subscribe(
-      res=>{
-        this.order= res;
-        console.log('Order created: '+this.order.id);
-        this.clearCart(cartId);
-      }
-    );
+    // this.http.post<Order>(this.getRelativePath("/createOrder"),this.cartId).subscribe(
+    //   res=>{
+    //     this.order= res;
+    //     console.log('Order created: '+this.order.id);
+    //     this.clearCart(cartId);
+    //   }
+    // );
   }
 
    //Method to get products present in Cart for CartComponent
-   getProductsInCart(cartId: number)
+   getAllFromCart(cartId: number)
    {
     let queryParam = '?cartId='+cartId; 
     return this.http.get<Product[]>(this.getRelativePath('/getAllFromCart'+queryParam));
+   }
+
+   getCart(cartId: number)
+   {
+    let queryParam = '?cartId='+cartId; 
+    this.http.get<Cart>(this.getRelativePath('/getCart'+queryParam))
+      .subscribe((res)=>{
+      this.cart.next(res);
+    });
    }
 
    //Method to find the products count in the cart
@@ -201,6 +180,13 @@ export class DataManagerService {
     });
    }
 
+   updateCartItem(cartItem: CartItem)
+   {
+    this.http.post<CartItem>(this.getRelativePath('/updateCartItem'),cartItem)
+    .subscribe(res=>{
+        console.log('CartItem Updated: '+JSON.stringify(res));
+    });
+   }
   // Get complete path to endpoint irrespective of application host. 
   getRelativePath(path) {
     var protocol = window.location.protocol;

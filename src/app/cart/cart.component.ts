@@ -1,6 +1,7 @@
+import { CartItem } from './../modal/Modals';
 import { DataManagerService } from './../services/data-manager.service';
 import { Component, OnInit } from '@angular/core';
-import { Product, OrderLine } from '../modal/Modals';
+import { Product, OrderLine, Cart } from '../modal/Modals';
 
 @Component({
   selector: 'app-cart',
@@ -8,90 +9,82 @@ import { Product, OrderLine } from '../modal/Modals';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-
-  //Array to Store Products in the user cart
-  cartProducts: Array<Product>=[];
  
   //To store total sum of Cart
   cartTotalSum=0;
 
+  //user Cart Copy
+  cart: Cart;
+
+  //user CartId Copy
+  cartId: number;
   constructor(private dataManagerService: DataManagerService) {
-    this.dataManagerService.generateOrderLines();
+      
    }
 
   ngOnInit() {
-    //Getting Products from User Cart
-    let cartId=1;
-    this.dataManagerService.getProductsInCart(cartId)
-    .subscribe((res)=>{
-      this.cartProducts = res;
-      this.initializeCart();
-      this.doCartTotal();
-    });
+
+        this.dataManagerService.getCart(1);
+
+        this.dataManagerService.cartId.subscribe((res)=>{
+          this.cartId=res;
+
+          //Getting Products from User Cart
+          this.dataManagerService.cart.subscribe((res)=>{
+          this.cart=res;
+          this.doCartTotal();
+        });
+        });
   }
 
-  initializeCart()
-  {
-      this.cartProducts.forEach(p=>{
-        p.quantity=1;
-      })
-  }
-
-  getCartProducts()
-  {
-    console.log('cartProducts= '+this.cartProducts);
-  }
 
   //Cart: Method to do Cart Total
   doCartTotal()
   {
       this.cartTotalSum=0;
-      for(let p of this.cartProducts)
+      for(let cartItem of this.cart.cartItems)
         {
-            this.cartTotalSum= this.cartTotalSum+(p.price*p.quantity);
+            this.cartTotalSum= this.cartTotalSum+(cartItem.product.price*cartItem.quantity);
         };
   }
 
   //Cart: Method to remove a specific product from Cart
-  removeFromCart(productId: number)
+  removeProductFromCart(item: CartItem)
   {
-    let cartId =1;
-    this.dataManagerService.removeProductFromCart(this.cartProducts[productId],cartId)
+    this.dataManagerService.removeProductFromCart(item.product.id,this.cartId)
     .subscribe((res)=>{
-      //console.log('Remove products '+this.cartProducts[productId].id+ ' in cart: '+cartId);
-      this.cartProducts.splice(productId,1)[0];
-      //this.removeProductFromOrder(productId);
-      console.log('Got products after removing  in cart: '+JSON.stringify(this.cartProducts));
-      this.doCartTotal();
+      this.cart.cartItems=this.cart.cartItems.filter(citem=>{
+        return citem.id!=item.id;
+      })
+      this.dataManagerService.cart.next(this.cart);
+      this.dataManagerService.getCart(this.cartId);
+      this.dataManagerService.getProductsCountInCart(this.cartId);
+      console.log('After removing product from cart: '+JSON.stringify(this.cart));
     });
   }
 
-  //Order Lines: Method to add a product to
-  addProductToOrder(productIndex)
-  {
-
-  }
-
-  //Order Lines: Method to remove a product from
-  removeProductFromOrder(productNumber)
-  {
-
-  }
-
-
   //Cart: Method to increase Product Quantity
-  increaseProductQuantity(productNumber)
+  increaseProductQuantity(itemNumber)
   {
-    this.cartProducts[productNumber].quantity++;
-    this.doCartTotal();
+    this.cart.cartItems[itemNumber].quantity++;
+    this.dataManagerService.cart.next(this.cart);
+    this.updateCartItem(itemNumber);
   }
 
   //Cart: Method to decrease Product Quantity
-  decreaseProductQuantity(productNumber)
+  decreaseProductQuantity(itemNumber)
   {
-    if(this.cartProducts[productNumber].quantity>1)
-    this.cartProducts[productNumber].quantity--;
-    this.doCartTotal();
+    if(this.cart.cartItems[itemNumber].quantity>1)
+    {
+        this.cart.cartItems[itemNumber].quantity--;
+        this.dataManagerService.cart.next(this.cart);
+        this.updateCartItem(itemNumber);
+    }
   }
 
+  updateCartItem(itemNumber: number)
+  {
+    console.log('updating cart Item: '+itemNumber);
+    this.dataManagerService.updateCartItem(this.cart.cartItems[itemNumber]);
+  }
 }

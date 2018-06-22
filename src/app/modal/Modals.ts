@@ -12,11 +12,17 @@ export class Address
 }
 
 export class Cart{
-    cartId: number;
+    id: number;
     dateCreated: Date;
-    products: Array<Product>;
+    cartItems: Array<CartItem>;
 }
 
+export class CartItem{
+    id: number;
+    product: Product;
+    quantity: number;
+    dateAdded: Date;
+}
 export class Category
 {
     categoryId: number;
@@ -67,7 +73,7 @@ export class OrderLine
      totalPrice: number;
 }
 
-export class Order
+export class Orders
 {
     id : number;
     status : OrderStatus;
@@ -149,7 +155,7 @@ export class User
     dateModified:Date;
     cart : Cart;
     addresses: Array<Address>;
-    orders: Array<Order>;
+    orders: Array<Orders>;
 }
 
 export class Zip{

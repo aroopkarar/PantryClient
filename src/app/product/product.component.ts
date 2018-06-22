@@ -1,6 +1,6 @@
 import { DataManagerService } from './../services/data-manager.service';
 import { Component, OnInit, Input } from '@angular/core';
-import { Product, Order } from './../modal/Modals';
+import { Product, Orders } from './../modal/Modals';
 import { Router } from '@angular/router';
 
 @Component({
@@ -28,9 +28,10 @@ export class ProductComponent implements OnInit {
   {
     let cartId=1;
     console.log('Adding to cart: '+cartId+ ' productId: '+product.id);
-    this.dataManagerService.addProductToCart(product,cartId).subscribe((res)=>{
+    this.dataManagerService.addProductToCart(product.id,cartId).subscribe((res)=>{
       console.log('Product added to cart');
       this.dataManagerService.getProductsCountInCart(cartId);
+      this.dataManagerService.getCart(cartId);
     });
   }
 
