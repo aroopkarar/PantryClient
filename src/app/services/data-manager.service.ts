@@ -192,6 +192,15 @@ export class DataManagerService {
     });
    }
 
+   //User : Method to create a new User
+   createUser(user: User)
+   {
+    this.http.post<User>(this.getRelativePath('/createUser'),user)
+    .subscribe(res=>{
+        console.log('User Created: '+JSON.stringify(res));
+    });
+   }
+
   // Get complete path to endpoint irrespective of application host. 
   getRelativePath(path) {
     var protocol = window.location.protocol;

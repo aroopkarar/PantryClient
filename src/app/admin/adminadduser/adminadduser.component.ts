@@ -38,11 +38,13 @@ export class AdminadduserComponent implements OnInit, OnDestroy  {
     this.user.isAdmin=formdata.value.isAdmin;
     this.user.dateAdded= new Date();
     this.user.dateModified=new Date();
+    this.user.addedBy=this.parentRouteId;
+    this.user.modifiedBy=this.parentRouteId;
 
-    this.user.cart= new Cart();
+    this.user.cart=new Cart();
     this.user.cart.dateCreated=new Date();
     console.log('this.user='+JSON.stringify(this.user));
-    //this.dataManagerService.createUser(this.user);
+    this.dataManagerService.createUser(this.user);
   }
 
   ngOnDestroy() {
