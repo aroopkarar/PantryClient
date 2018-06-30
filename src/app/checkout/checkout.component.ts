@@ -1,4 +1,4 @@
-import { Product, Cart } from './../modal/Modals';
+import { Product, Cart, User } from './../modal/Modals';
 import { Component, OnInit } from '@angular/core';
 import { DataManagerService } from '../services/data-manager.service';
 
@@ -18,41 +18,19 @@ export class CheckoutComponent implements OnInit {
   //user Cart Copy
   cart: Cart;
 
-  //user CartId Copy
-  cartId: number;
-  
+  //user data object
+  user: User;
+
   constructor(private dataManagerService: DataManagerService) { }
 
   ngOnInit() {
-    //this.getCartProducts();
-    this.dataManagerService.cart.subscribe((res)=>{
-        this.cart=res;
-        this.doCartTotal();
+
+    this.dataManagerService.user.subscribe((res: User)=>{
+      this.user=res;
+      this.cart=this.user.cart;
+      this.doCartTotal();
     });
-
-    this.dataManagerService.cartId.subscribe((res)=>{
-      this.cartId=res;});
   }
-
-  // getCartProducts()
-  // {
-  //     let cartId=1;
-  //     this.dataManagerService.getAllFromCart(cartId)
-  //     .subscribe((res)=>{
-  //       this.products = res;
-  //       this.getSum();
-  //     });
-  // }
-
-  // getSum()
-  // {
-  //     this.sum=0;
-  //     for(let p of this.products)
-  //       {
-  //           this.sum= this.sum+p.price;
-  //       };
-  // }
-
     //Cart: Method to do Cart Total
     doCartTotal()
     {
@@ -66,6 +44,7 @@ export class CheckoutComponent implements OnInit {
 
     createOrder()
     {
-      this.dataManagerService.createOrder(this.cartId);
+      console.log('Ready to create order');
+      this.dataManagerService.createOrder(this.user);
     }
 }

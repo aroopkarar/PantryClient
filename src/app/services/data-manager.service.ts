@@ -21,12 +21,17 @@ export class DataManagerService {
   //Stores User CartId
   cartId=new BehaviorSubject<number>(1);
 
+  //Stores User Details
+  userId=new BehaviorSubject<number>(1);
+  user =new BehaviorSubject<User>(null);
+
   //Order object
-  public order: Orders= new Orders();
+  order: Orders= new Orders();
 
   //Instantiating Order lines for a Order
   constructor(private http: HttpClient) { 
     this.getCart(this.cartId.getValue());
+    this.getUser(this.userId.getValue());
   }
 
   products: Array<Product>;
@@ -134,15 +139,16 @@ export class DataManagerService {
    }
 
   //Method to create a new Order
-  createOrder(cartId: number)
+  createOrder(user:User)
   {
-    // this.http.post<Order>(this.getRelativePath("/createOrder"),this.cartId).subscribe(
-    //   res=>{
-    //     this.order= res;
-    //     console.log('Order created: '+this.order.id);
-    //     this.clearCart(cartId);
-    //   }
-    // );
+    let queryParam = '?userId='+user.id;
+    this.http.get<Orders>(this.getRelativePath("/createOrder")+queryParam).subscribe(
+      res=>{
+        this.order= res;
+        console.log('Order created: '+this.order.id);
+        this.clearCart(user.cart.id);
+      }
+    );
   }
 
    //Method to get products present in Cart for CartComponent
@@ -187,6 +193,16 @@ export class DataManagerService {
         console.log('CartItem Updated: '+JSON.stringify(res));
     });
    }
+
+   getUser(userId: number)
+   {
+      let queryParam = '?userId='+userId; 
+      this.http.get<User>(this.getRelativePath('/getUserById'+queryParam)).subscribe((res)=>{
+        this.user.next(res);
+        this.cart.next(res.cart);
+      })
+   }
+
   // Get complete path to endpoint irrespective of application host. 
   getRelativePath(path) {
     var protocol = window.location.protocol;
