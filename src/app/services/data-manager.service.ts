@@ -39,6 +39,9 @@ export class DataManagerService {
   //Temporary**
   public isValidUser()
   {
+    if(!this.isValid)
+    localStorage.removeItem('JWT');
+    console.log('isValid: ',this.isValid);
     return this.isValid;
   }
 

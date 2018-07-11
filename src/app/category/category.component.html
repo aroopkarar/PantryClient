@@ -7,7 +7,7 @@
                   <li *ngFor="let catg of cg" (click)="getProductsByCategoryGroup(catg.groupId)"  data-toggle="collapse" data-target="#products"
                        class="collapsed active">
                     <span class="menus">{{catg.groupName}}</span>
-                    <ul class="sub-menu">
+                    <ul class="sub-menu text-center">
                       <li *ngFor="let cat of catg.categories" class="active" (click)="getProductsByCategoryGroupAndCategory(catg.groupId,ct.value);$event.stopPropagation();" #ct value="{{cat.categoryId}}">
                         {{cat.categoryName}}
                     </li>
