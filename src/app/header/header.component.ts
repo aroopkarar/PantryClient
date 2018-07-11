@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private dataManagerService: DataManagerService,
+  constructor(public dataManagerService: DataManagerService,
   private router: Router) { }
 
   cartCount=0;

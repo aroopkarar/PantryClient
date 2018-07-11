@@ -3,17 +3,19 @@
       <form #f="ngForm" (ngSubmit)="save(f.value)" style="padding: 2em;">
           <div class="form-group">
             <label for="productName">Product Name</label>
-            <input #title="ngModel" [(ngModel)]="product.productName" name="productName"  type="text" class="form-control" required>
-            <div class="alert alert-danger" *ngIf="title.touched && title.invalid">
+            <!-- <input #title="ngModel" [(ngModel)]="product.productName" name="productName"  type="text" class="form-control" required>
+             -->
+            <!-- <div class="alert alert-danger" *ngIf="title.touched && title.invalid">
               Product Name is Required
-            </div>
+            </div> -->
         </div>
         <div class="form-group">
             <label for="productDescription">Product Description</label>
-            <input #productDescription="ngModel" [(ngModel)]="product.productDescription" name="productDescription" type="text" class="form-control" required>
-            <div class="alert alert-danger" *ngIf="productDescription.touched && productDescription.invalid">
+            <!-- <input #productDescription="ngModel" [(ngModel)]="product.productDescription" name="productDescription" type="text" class="form-control" required>
+             -->
+            <!-- <div class="alert alert-danger" *ngIf="productDescription.touched && productDescription.invalid">
                 Product Description is Required
-            </div>
+            </div> -->
         </div>
         <div class="form-group">
             <label for="price">Price</label>
@@ -70,7 +72,8 @@
       <div class="card">
           <img class="card-img-top img-responsive" [src]="product.imageUrl" *ngIf="product.imageUrl">
           <div class="card-body">
-            <h5 class="card-title">{{product.productName}}</h5>
+            <!-- <h5 class="card-title">{{product.productName}}</h5>
+            -->
             <p class="card-text">INR {{product.price}}</p>
           </div>
         </div>

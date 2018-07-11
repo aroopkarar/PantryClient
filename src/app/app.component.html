@@ -1,8 +1,8 @@
 <div class="container-fluid">
         <div class="row">
-        <app-login *ngIf="isValidUser()"></app-login>
+        <app-login *ngIf="!isValidUser()"></app-login>
         </div>
         <div class="row">
-        <app-home *ngIf="!isValidUser()"></app-home>
+        <app-home *ngIf="isValidUser()"></app-home>
         </div>
 </div>

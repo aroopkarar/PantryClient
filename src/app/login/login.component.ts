@@ -14,13 +14,9 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  products: Array<Product>;
   constructor(private service: DataManagerService )
   {
-      // service.getProducts().subscribe(res=>{
-      //   this.products= res;
-      //   console.log(JSON.stringify(this.products));
-      // });
+
   }
   login(formdata)
   {
@@ -39,11 +35,12 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('JWT',res.headers.get('Authorization'));
       if(res.status == 200)
       {
-      this.service.isValid = true;
+        console.log('res.status= '+res.status);
+        this.service.isValid = true;
       }
       else
       {
-      this.service.isValid = false;
+        this.service.isValid = false;
       }
   });
   }

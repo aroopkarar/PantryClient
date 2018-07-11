@@ -8,10 +8,17 @@
     width: 300px;
     height: 100%;
     color: #e1ffff;
-    margin-left: -1.2em;
   }
   .nav-side-menu .brand {
     background-color: #23282e;
+    line-height: 50px;
+    display: block;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .menus {
+    background-color: #35567e;
     line-height: 50px;
     display: block;
     text-align: center;
@@ -79,7 +86,6 @@
   .nav-side-menu ul .sub-menu li:before,
   .nav-side-menu li .sub-menu li:before {
     font-family: FontAwesome;
-    content: "\f105";
     display: inline-block;
     padding-left: 10px;
     padding-right: 10px;
@@ -128,6 +134,12 @@
       text-align: center;
     }
     .brand {
+      text-align: left !important;
+      font-size: 22px;
+      padding-left: 20px;
+      line-height: 50px !important;
+    }
+    .menus {
       text-align: left !important;
       font-size: 22px;
       padding-left: 20px;

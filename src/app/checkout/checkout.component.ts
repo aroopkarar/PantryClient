@@ -21,7 +21,7 @@ export class CheckoutComponent implements OnInit {
   //user data object
   user: User;
 
-  constructor(private dataManagerService: DataManagerService) { }
+  constructor(public dataManagerService: DataManagerService) { }
 
   ngOnInit() {
 
